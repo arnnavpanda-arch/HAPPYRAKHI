@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Ek Dhaaga</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Nunito+Sans:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=6">
+</head>
+<body style="display:flex; justify-content:center; align-items:flex-start; min-height:100vh; padding: 20px;">
+  <!-- ambient background -->
+  <div id="petals-layer"></div>
+  <div class="hero" style="position:fixed; inset:0; z-index:-1; min-height:100vh;"></div>
+
+  <div class="modal-box" style="position:relative; z-index:10; transform:none; top:0; left:0; width:min(500px, 100%); margin-top:40px; opacity:1; visibility:visible;">
+    
+    <div id="adminLoginView">
+      <h3>Admin Access</h3>
+      <p class="hint">Enter the admin password to manage rakhi codes.</p>
+      <div class="field">
+        <label for="adminPassword">Password</label>
+        <input type="password" id="adminPassword" placeholder="••••••••">
+      </div>
+      <button class="btn-primary" id="adminLoginBtn" style="width:100%;">Log In</button>
+      <div class="status-msg err" id="adminLoginStatus"></div>
+    </div>
+
+    <div id="adminPanelView" style="display:none;">
+      <h3>Manage Rakhi Codes</h3>
+      <p class="hint">Create a code, write a personal message, and add a photo.</p>
+
+      <form id="addCouponForm">
+        <div class="field">
+          <label for="newCode">Coupon Code</label>
+          <input type="text" id="newCode" placeholder="e.g. SISTER2026" required>
+        </div>
+        <div class="field">
+          <label for="newMessage">Personal Message</label>
+          <textarea id="newMessage" placeholder="Write your heartfelt rakhi message..." required></textarea>
+        </div>
+        <div class="field">
+          <label>Photos (optional)</label>
+          <div id="photoPreviewList" style="display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap;"></div>
+          <input type="file" id="newPhoto" accept="image/*">
+          <p class="hint" style="margin-top:4px; margin-bottom:0; font-size:0.75rem;">Select an image to add it to the list. You can add as many as you want one by one.</p>
+        </div>
+        <div class="field">
+          <label for="newAudio">Background Song (MP3) (optional)</label>
+          <input type="file" id="newAudio" accept="audio/mpeg">
+        </div>
+        <div class="field">
+          <label>Gift Image (for Scratch Card, optional)</label>
+          <input type="file" id="newGiftImage" accept="image/*">
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button type="submit" class="btn-primary" id="saveCodeBtn" style="flex:1;">Save Code</button>
+          <button type="button" class="btn-ghost" id="clearFormBtn" style="flex:1;">Clear</button>
+        </div>
+        <div class="status-msg" id="addCouponStatus"></div>
+      </form>
+
+      <div class="admin-list" id="adminList"></div>
+    </div>
+  </div>
+
+<script src="admin.js?v=3"></script>
+</body>
+</html>

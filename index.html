@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ek Dhaaga — A Rakhi Card for You</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Nunito+Sans:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+
+<div class="rangoli"></div>
+<div id="petals-layer"></div>
+
+<!-- ============ RAKHI ANIMATION OVERLAY ============ -->
+<div id="rakhiAnimationOverlay" style="display:none; position:fixed; inset:0; z-index:100; background:radial-gradient(circle at center, #40145f 0%, #160827 45%, #05020d 100%);">
+    <div class="glow"></div>
+    <div class="scene">
+        <div class="rakhi">
+            <div class="thread"></div>
+            <div class="center">
+                <div class="ring"></div>
+                <div class="ring2"></div>
+                <div class="ring3"></div>
+                <div class="gem"></div>
+                <div class="stone s1"></div>
+                <div class="stone s2"></div>
+                <div class="stone s3"></div>
+                <div class="stone s4"></div>
+            </div>
+        </div>
+        <div class="title" style="margin-top:70px; text-align:center; z-index:5;">
+            <h1>Happy Raksha Bandhan ❤️</h1>
+            <p>To the most amazing sister in the world 🎀</p>
+        </div>
+    </div>
+</div>
+
+<!-- ============ SCRATCH CARD OVERLAY ============ -->
+<div id="scratchCardOverlay" class="hidden">
+    <div class="scratch-container" style="display:flex; flex-direction:column; align-items:center;">
+        <button id="closeScratchBtn" class="modal-close" style="position:absolute; top:-30px; right:0; color:white;">✕</button>
+        <div style="position:relative; width: 300px; height: 300px; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); background: white;">
+            <img id="scratchImage" src="" alt="Gift Image" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
+            <canvas id="scratchCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; cursor: crosshair;"></canvas>
+        </div>
+        <button class="btn-ghost" id="revealAllBtn" type="button" style="margin-top:20px;">Reveal All 🪄</button>
+    </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="hero">
+  <p class="eyebrow">Raksha Bandhan · A Thread of Memory</p>
+
+  <div class="thread-stage" id="threadStage">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="threadGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#f2c375"/>
+          <stop offset="100%" stop-color="#c6484f"/>
+        </linearGradient>
+        <radialGradient id="pendantGrad" cx="50%" cy="35%" r="70%">
+          <stop offset="0%" stop-color="#fff6d8"/>
+          <stop offset="60%" stop-color="#e8a33d"/>
+          <stop offset="100%" stop-color="#9c5a1d"/>
+        </radialGradient>
+      </defs>
+      <!-- hanging tails -->
+      <path d="M100 120 C 70 150, 60 190, 55 200" stroke="url(#threadGrad)" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M100 120 C 130 150, 140 190, 145 200" stroke="url(#threadGrad)" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <!-- loop bow -->
+      <path d="M100 100 C 40 80, 40 20, 100 55 C 160 20, 160 80, 100 100 Z" fill="none" stroke="url(#threadGrad)" stroke-width="6" stroke-linejoin="round"/>
+      <!-- central pendant -->
+      <circle cx="100" cy="70" r="26" fill="url(#pendantGrad)" stroke="#d4af37" stroke-width="2"/>
+      <circle cx="100" cy="70" r="10" fill="#7a1f1f"/>
+      <g stroke="#fff6d8" stroke-width="1.4" opacity="0.85">
+        <line x1="100" y1="46" x2="100" y2="52"/>
+        <line x1="100" y1="88" x2="100" y2="94"/>
+        <line x1="76" y1="70" x2="82" y2="70"/>
+        <line x1="118" y1="70" x2="124" y2="70"/>
+      </g>
+    </svg>
+  </div>
+
+  <h1>27 August<br>Happy Raksha Bandhan</h1>
+  <p class="sub">A little thread, a little memory — tied just for you. Enter your rakhi code below to untie it.</p>
+
+  <div class="scroll-cue"><span class="line"></span>scroll</div>
+</header>
+
+<div id="celebration"></div>
+
+<!-- ============ MAIN ============ -->
+<main>
+  <!-- Coupon entry -->
+  <section class="panel" id="couponSection">
+    <div class="glass-card">
+      <h2>Enter Your Rakhi Code</h2>
+      <p class="hint">Type the code shared with you to unwrap your message.</p>
+      <form id="coupon-form">
+        <input id="coupon-input" type="text" placeholder="e.g. SISTER2026" autocomplete="off" maxlength="30" required>
+        <div id="coupon-error"></div>
+        <button type="submit" class="btn-primary" id="coupon-submit">Untie the Thread</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Reveal -->
+  <section class="panel hidden" id="revealSection">
+    <div class="reveal-stage">
+      <div class="card-3d">
+        <div class="card-face" id="revealFace">
+          <div class="reveal-photo-wrap" id="revealPhotoWrap" style="display:none;">
+            <img id="revealPhoto" src="" alt="Memory photo">
+          </div>
+          <div class="reveal-message" id="revealMessage"></div>
+          <div class="reveal-signoff">With love, always.</div>
+          <div class="reveal-actions">
+            <button class="btn-ghost" id="anotherCodeBtn" type="button">Enter Another Code</button>
+            <button class="btn-primary" id="viewGiftBtn" type="button" style="display:none; margin-left: 10px;">View Gift 🎁</button>
+          </div>
+          <!-- Hidden audio player for background song -->
+          <audio id="revealAudio" preload="auto" style="display: none;"></audio>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>Made with a thread of love, for Raksha Bandhan.</footer>
+
+<!-- Admin panel moved to /admin -->
+
+<script src="script.js?v=4"></script>
+</body>
+</html>
