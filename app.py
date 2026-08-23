@@ -36,6 +36,10 @@ def index():
 def admin():
     return send_from_directory('.', 'admin.html')
 
+@app.route('/health')
+def health_check():
+    return jsonify({"status": "healthy", "service": "Rakhi API"}), 200
+
 @app.route('/<path:path>')
 def serve_static(path):
     return send_from_directory('.', path)
