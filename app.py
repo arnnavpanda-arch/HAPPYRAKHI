@@ -51,9 +51,18 @@ def stream():
         clients.append(q)
         try:
             while True:
-                yield q.get()
-        except GeneratorExit:
-            clients.remove(q)
+                try:
+                    # Wake up every 15 seconds to check if client is still there
+                    message = q.get(timeout=15)
+                    yield message
+                except queue.Empty:
+                    # Send a keep-alive ping. If the client disconnected, this yield will raise an error
+                    yield ": keepalive\n\n"
+        except Exception:
+            pass
+        finally:
+            if q in clients:
+                clients.remove(q)
     return Response(event_stream(), mimetype="text/event-stream")
 
 # API Endpoints
